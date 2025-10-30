@@ -10,11 +10,28 @@ export class DynamicArray {
   }
 
   //TODO: shouldn't this be setting size and then we can just return it?
-  size(){
+  size() {
     let count = 0;
-    for(i of this){
-      if(i) count++;
+    for (i of this) {
+      if (i) count++;
     }
-    return count;
+    this.#size = count;
+    return this.#size;
   }
+
+  get(index){}
+
+  insert(index, value){}
+
+  remove(index){}
+
+  set(index, value){}
+
+  clear(){}
+
+  // this should private, you shouldn't be able to call this from the outside
+  #grow(){}
+
+  // same for this, should be private
+  #shrinking(){}
 }
