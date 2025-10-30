@@ -1,4 +1,4 @@
-import DynamicArray from "dynamicarray.js";
+import DynamicArray from "./dynamicarray.js";
 
 // opret et array med plads til fem elementer
 const darr = new DynamicArray(5); 
