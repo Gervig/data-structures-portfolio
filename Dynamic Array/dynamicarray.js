@@ -1,12 +1,14 @@
 import StaticArray from "./StaticArray.js";
 
 export class DynamicArray {
+  #arr;
   #size;
   #capacity;
 
   constructor(capacity) {
     this.#size;
     this.#capacity = capacity;
+    this.#arr = new StaticArray(capacity);
   }
 
   //TODO: shouldn't this be setting size and then we can just return it?
