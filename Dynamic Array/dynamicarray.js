@@ -1,6 +1,6 @@
-import StaticArray from "../StaticArray/StaticArray";
+import StaticArray from "../StaticArray/StaticArray.js";
 
-export class DynamicArray {
+export default class DynamicArray {
   #arr;
   #size;
   #capacity;
