@@ -5,7 +5,7 @@ export default class DynamicArray {
   #size;
   #capacity;
 
-  constructor(capacity = 10) {
+  constructor(capacity = 1) {
     this.#size = 0;
     this.#capacity = capacity;
     this.#arr = new StaticArray(capacity);
@@ -30,13 +30,20 @@ export default class DynamicArray {
   }
 
   get(index) {
-    this.#rangeCheck(index);
+    if (!this.#rangeCheck(index)) {
+      throw new RangeError(`Could not get Index ${index}, it is out of range.`);
+    }
     return this.#arr.get(index);
   }
 
   insert(index, value) {
-    this.#rangeCheck(index);
-    if (index < 0 || index > this.#size) this.#grow();
+    if (index < 0 || index > this.#size) {
+      throw new RangeError(
+        `Could not insert at Index ${index}, it is out of range.`
+      );
+    }
+
+    if (this.#size >= this.#capacity) this.#grow();
 
     for (let i = this.#size; i > index; i--) {
       this.#arr.set(i, this.#arr.get(i - 1));
@@ -47,9 +54,13 @@ export default class DynamicArray {
   }
 
   remove(index) {
-    this.#rangeCheck();
+    if (!this.#rangeCheck(index)) {
+      throw new RangeError(
+        `Could not remove Index ${index}, it is out of range.`
+      );
+    }
 
-    for (let i = index; i < this.#size; i++) {
+    for (let i = index; i < this.#size - 1; i++) {
       this.#arr.set(i, this.#arr.get(i + 1));
     }
 
@@ -58,7 +69,9 @@ export default class DynamicArray {
   }
 
   set(index, value) {
-    this.#rangeCheck(index);
+    if (!this.#rangeCheck(index)) {
+      throw new RangeError(`Could set at Index ${index}, it is out of range.`);
+    }
     return this.#arr.set(index, value);
   }
 
@@ -75,9 +88,14 @@ export default class DynamicArray {
     this.#size = 0;
   }
 
+  // public grow() for testing
+  grow() {
+    this.#grow();
+  }
+
   // this should private, you shouldn't be able to call this from the outside
   #grow() {
-    const newCapacity = this.#capacity * 2;
+    const newCapacity = this.#capacity + 1;
     const newArr = new StaticArray(newCapacity);
 
     for (let i = 0; i < this.#size; i++) {
@@ -89,10 +107,19 @@ export default class DynamicArray {
   }
 
   // same for this, should be private
-  #shrinking() {}
+  #shrinking() {
+    const newCapacity = this.#capacity - 1;
+    const newArr = new StaticArray(newCapacity);
+
+    for (let i = 0; i < this.#size; i++) {
+      newArr.set(i, this.#arr.get(i));
+    }
+    this.#arr = newArr;
+    console.log(`Array has shrunk from ${this.#capacity} to ${newCapacity}`);
+    this.#capacity = newCapacity;
+  }
 
   #rangeCheck(index) {
-    if (index < 0 || index >= this.#size)
-      throw new RangeError(`Index ${index} is out range.`);
+    return index >= 0 && index < this.#size;
   }
 }
