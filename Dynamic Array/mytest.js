@@ -1,7 +1,7 @@
 import DynamicArray from "./dynamicarray.js";
 
 // opret et array med plads til fem elementer
-const darr = new DynamicArray(5); 
+const darr = new DynamicArray(5);
 
 // udskriver at der er 0 elementer i arrayet
 console.log(`there are currently ${darr.size()} elements in the array`);
@@ -12,7 +12,7 @@ darr.add("Ronald Weasley");
 darr.add("Hermione Granger");
 
 // udskriver alle tre elementer - det forventes ikke at du får den til at virke med for...of
-for (let i=0; i < darr.size(); i++) {
+for (let i = 0; i < darr.size(); i++) {
   console.log(darr.get(i));
 }
 
@@ -29,7 +29,7 @@ console.log(`array now has a capacity of ${darr.capacity()}`);
 darr.insert(1, "Cho Chang");
 
 // udskriver alle elementer igen, nu Harry, Cho, Ron, Hermione, Neville, Fred, George
-for (let i=0; i < darr.size(); i++) {
+for (let i = 0; i < darr.size(); i++) {
   console.log(darr.get(i));
 }
 
@@ -40,3 +40,8 @@ darr.set(1, "Ginny Weasley");
 darr.remove(5);
 
 // udskriv endelig hele listen igen ...
+console.log(`Finally print the entire list:`);
+
+for (let i = 0; i < darr.size(); i++) {
+  console.log(darr.get(i));
+}
