@@ -1,31 +1,45 @@
-import DynamicArray from "../Dynamic Array/dynamicarray";
+import StaticArray from "../StaticArray/StaticArray";
 
 export default class SinglyLinkedList {
-  #arr;
-  #node;
+  #nodes;
   #head;
 
   constructor() {
-    this.#arr = new DynamicArray();
-    // sets the head to first index if it has one, otherwise it's null
-    this.#arr.size > 0 ? (this.#head = this.#arr.get(0)) : (this.#head = null);
+    this.#nodes = [];
+    this.#head = null;
   }
 
   printList() {
-    for (item of this.#arr) {
-      console.log(`${item}`);
+    for (node of this.#nodes) {
+      console.log(`${node}`);
     }
   }
 
-  add(data) {}
+  add(data) {
+    const node = { data: "A" };
+    data.next = node;
+    this.#nodes.add(data);
+  }
 
-  get(index) {}
+  get(index) {
+    let i = 0;
+    for (node of this.#nodes) {
+      if (i == index) {
+        return node;
+      }
+      i++;
+    }
+  }
 
   getFirst() {
     return this.#head;
   }
 
-  getLast() {}
+  getLast() {
+    for (node of this.#nodes) {
+      if (node.next == null) return node;
+    }
+  }
 
   set(index, data) {}
 
@@ -37,14 +51,9 @@ export default class SinglyLinkedList {
 
   removeLast() {}
 
-  size() {
-    return this.#arr.size();
-  }
+  size() {}
 
-  clear() {
-    this.#arr = new DynamicArray();
-    this.#arr.size = 0;
-  }
+  clear() {}
 
   getNode(index) {}
 
