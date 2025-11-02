@@ -25,10 +25,6 @@ export default class SinglyLinkedList {
     if (this._size === 0) console.log("(empty list)");
   }
 
-  // ========================
-  // === DATA-LEVEL API ===
-  // ========================
-
   add(data) {
     const newNode = this._createNode(data);
     if (!this.head) {
@@ -118,10 +114,6 @@ export default class SinglyLinkedList {
   clear() {
     this.head = null;
   }
-
-  // ========================
-  // === NODE-LEVEL API ===
-  // ========================
 
   getNode(index) {
     if (index < 0 || index >= this._size) return null;
