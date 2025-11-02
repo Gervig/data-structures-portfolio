@@ -55,10 +55,39 @@ export default class SinglyLinkedList {
     if(!this.#rangeCheck(index)) {
         throw RangeError(`Could not insert at Index ${index}, it is out of range`);
     }
-
+    if(index == 0){
+        data.next = this.#head;
+        this.#head = data;
+        this.#nodes.add(data);
+        return;
+    } else {
+        this.get(index - 1).next = data;
+        data.next = this.get(index);
+        this.#nodes.add(data);
+    }
   }
 
-  remove(index) {}
+  remove(index) {
+    if(!this.#rangeCheck(index)) {
+        throw RangeError(`Could not remove at Index ${index}, it is out of range`);
+    }
+    let node = this.get(index);
+    if(index == 0){
+        if(node.next){
+            this.#head = node.next;
+            this.#nodes.remove(node);
+            return;
+        } else {
+            let prevNode = this.get(index - 1);
+            if(prevNode){
+                prevNode.next = prevNode.next.next;
+                this.#nodes.reduce(node);
+                return;
+            }
+        }
+    }
+
+  }
 
   removeFirst() {}
 
