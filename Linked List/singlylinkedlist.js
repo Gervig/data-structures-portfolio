@@ -22,6 +22,9 @@ export default class SinglyLinkedList {
   }
 
   get(index) {
+    if(!this.#rangeCheck(index)) {
+        throw RangeError(`Could get Index ${index}, it is out of range`);
+    }
     let i = 0;
     for (node of this.#nodes) {
       if (i == index) {
@@ -41,9 +44,19 @@ export default class SinglyLinkedList {
     }
   }
 
-  set(index, data) {}
+  set(index, data) {
+    if(!this.#rangeCheck(index)) {
+        throw RangeError(`Could not set at Index ${index}, it is out of range`);
+    }
+    this.get(index) = data;
+  }
 
-  insert(index, data) {}
+  insert(index, data) {
+    if(!this.#rangeCheck(index)) {
+        throw RangeError(`Could not insert at Index ${index}, it is out of range`);
+    }
+
+  }
 
   remove(index) {}
 
@@ -55,7 +68,11 @@ export default class SinglyLinkedList {
 
   clear() {}
 
-  getNode(index) {}
+  getNode(index) {
+    if(!this.#rangeCheck(index)) {
+        throw RangeError(`Could not get node Index ${index}, it is out of range`);
+    }
+  }
 
   getFirstNode() {}
 
@@ -70,4 +87,8 @@ export default class SinglyLinkedList {
   insertAfter(node, data) {}
 
   removeNode(node) {}
+
+  #rangeCheck(index){
+    return index >= 0;
+  }
 }
