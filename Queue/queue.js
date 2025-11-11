@@ -1,4 +1,38 @@
+import DoublyLinkedList from "../Doubly Linked List/doublylinkedlist";
+
 export default class Queue {
-    //TODO: create queue class
-    constructor(){}
+  constructor() {
+    this.list = new DoublyLinkedList();
+  }
+
+  head() {
+    return this.list.head;
+  }
+
+  tail() {
+    return this.list.tail;
+  }
+
+  enqueue(data) {
+    this.list.addLast(data);
+    return this.tail();
+  }
+
+  dequeue() {
+    const node = this.head();
+    this.list.removeFirst();
+    return node;
+  }
+
+  peek() {
+    return this.head();
+  }
+
+  size() {
+    return this.list._size;
+  }
+
+  get(index) {
+    return this.list.get(index);
+  }
 }
