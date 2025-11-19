@@ -7,7 +7,9 @@ export default class Stack {
   }
 
   // add element to stack
-  push(node) {
+  push(data) {
+    // create a new node with with the data
+    const node = this._createNode(data);
     // first set the node's next as head
     node.next = this.head;
     // then assign the new node as the head
@@ -15,11 +17,17 @@ export default class Stack {
     this.head = node;
     // size goes up
     this._size++;
+    return this.head;
   }
 
   // remove the last added element from the stack
   pop() {
+    // saves the element that is about to be popped
+    const popped = this.head;
+    // pops the head
     this.head = this.head.next;
+    // returns the popped
+    return popped;
   }
 
   // look at the top element (last added element) of the stack
@@ -40,6 +48,11 @@ export default class Stack {
 
   isEmpty() {
     return !this.head;
+  }
+
+  // Helper method to create a new node
+  _createNode(data, next = null, prev = null) {
+    return { data, next, prev };
   }
 
   //TODO: only makes sense if a stack has a fixed size
