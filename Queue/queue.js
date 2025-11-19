@@ -1,5 +1,3 @@
-// import DoublyLinkedList from "../Doubly Linked List/doublylinkedlist";
-
 export default class Queue {
   // First in, first out (FIFO)
   constructor() {
@@ -38,6 +36,13 @@ export default class Queue {
     this._size++;
   }
 
+  remove(index) {
+    // checks for valid index
+    if (index < 0 || index >= this._size) {
+      throw RangeError(`Index ${index} out of range`);
+    }
+  }
+
   dequeue() {
     // const node = this.head();
     // this.list.removeFirst();
@@ -66,5 +71,38 @@ export default class Queue {
       // if it's null, return undefined
       return undefined;
     }
+  }
+
+  // Helper method to create a new node
+  _createNode(data, next = null, prev = null) {
+    return { data, next, prev };
+  }
+
+  getNode(index) {
+    // returns null if index is invalid
+    if (index < 0 || index >= this._size) return null;
+    let current;
+    let i = 0;
+    let j = this._size - 1;
+
+    // checks if it's fastest to start from head
+    // otherwise starts from tail
+    if (index > 0 && index < this._size / 2) {
+      current = this.head;
+      // loops through nodes from the head
+      while (current && i < index) {
+        current = current.next;
+        i++;
+      }
+    } else {
+      current = this.tail;
+      // loops through nodes from the tail
+      while (current && j > index) {
+        current = current.prev;
+        j--;
+      }
+    }
+
+    return current;
   }
 }
