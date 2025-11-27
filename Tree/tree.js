@@ -3,39 +3,7 @@ export default class Tree {
     this.root;
   }
 
-  createChild(value, parent = null) {
-    return {
-      parent: parent,
-      left: null,
-      right: null,
-      item: value,
-      height: 0,
-    };
-  }
-
-  // call it with root for example like this: tree.dfs(tree.root)
-  // there are 3 traversals, pre-order, in-order & post-order.
-  // depends on when you console.log
-  dfs(node) {
-    if (!node) return;
-    this.dfs(node.left);
-    console.log(`output: ${node.item}`);
-    this.dfs(node.right);
-  }
-
-  updateHeight(node) {
-    let leftHeight = node.left ? node.left.height : -1;
-    let rightHeight = node.right ? node.right.height : -1;
-    node.height = Math.max(leftHeight, rightHeight) + 1;
-  }
-
-  maintain(node) {
-    this.updateHeight(node);
-    if (node.parent) {
-      this.maintain(node.parent);
-    }
-  }
-
+  //TODO: rewrite to non BST
   printTree() {
     // Print the tree in a nice way - by creating a (jagged) 2D array of the tree
     // each level (starting from root) is an array in the array that doubles in size from the previous level
@@ -141,6 +109,7 @@ export default class Tree {
     console.log(treeString);
   }
 
+  //TODO: rewrite to non BST
   addValue(value) {
     let node = this.root;
     while (node != null) {
@@ -185,6 +154,7 @@ export default class Tree {
     }
   }
 
+  //TODO: rewrite to non BST
   findValue(value) {
     if (!this.root) {
       return;
@@ -217,6 +187,7 @@ export default class Tree {
     return null;
   }
 
+  //TODO: rewrite to non BST
   removeValue(value) {
     // find the node to remove
     const node = this.findValue(value);
@@ -287,4 +258,36 @@ export default class Tree {
 
     if (succChild) succChild.parent = succParent;
   }
+
+  // --------------------- //
+  // ---- NODE LOGIC ----- //
+  // --------------------- //
+
+  static Node = class {
+    constructor(parent = null, childNodes = [], value = null) {
+      this.parent = parent;
+      this.childNodes = childNodes;
+      this.value = value;
+    }
+
+    firstChild() {
+      return this.childNodes[0];
+    }
+
+    lastChild() {
+      return this.childNodes[1];
+    }
+
+    hasChildNodes() {
+      //TODO: js doesn't have an isEmpty method?
+      // This is not good enough, what if the child nodes are null?
+      return this.childNodes.length == 0;
+    }
+    appendChild(child) {
+      this.childNodes.push(child);
+    }
+    removeChild(child){
+        //TODO: use filtering
+    }
+  };
 }
