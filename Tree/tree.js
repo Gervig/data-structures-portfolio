@@ -161,10 +161,12 @@ export default class Tree {
 
     let node = this.root;
 
-    //TODO: can we use binary search?
+    //TODO: can we use binary search? Or is this it?
+    // loop through the tree
     while (node != null) {
       // we go right
       if (node.left.value > value) {
+        // assign new node
         node = node.left;
         if (node.value == value) {
           return node;
@@ -172,12 +174,14 @@ export default class Tree {
       }
       // we go left
       else {
+        // assign new node
         node = node.right;
         if (node.value == value) {
           return node;
         }
       }
     }
+    // if we didn't find it, return null
     return null;
   }
 }
