@@ -3,6 +3,39 @@ export default class Tree {
     this.root;
   }
 
+  createChild(value, parent = null) {
+    return {
+      parent: parent,
+      left: null,
+      right: null,
+      item: value,
+      height: 0,
+    };
+  }
+
+  // call it with root for example like this: tree.dfs(tree.root)
+  // there are 3 traversals, pre-order, in-order & post-order.
+  // depends on when you console.log
+  dfs(node) {
+    if (!node) return;
+    this.dfs(node.left);
+    console.log(`output: ${node.item}`);
+    this.dfs(node.right);
+  }
+
+  updateHeight(node) {
+    let leftHeight = node.left ? node.left.height : -1;
+    let rightHeight = node.right ? node.right.height : -1;
+    node.height = Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  maintain(node) {
+    this.updateHeight(node);
+    if (node.parent) {
+      this.maintain(node.parent);
+    }
+  }
+
   printTree() {
     // Print the tree in a nice way - by creating a (jagged) 2D array of the tree
     // each level (starting from root) is an array in the array that doubles in size from the previous level
@@ -161,7 +194,6 @@ export default class Tree {
 
     let node = this.root;
 
-    //TODO: can we use binary search? Or is this it?
     // loop through the tree
     while (node != null) {
       // we go right
@@ -183,5 +215,76 @@ export default class Tree {
     }
     // if we didn't find it, return null
     return null;
+  }
+
+  removeValue(value) {
+    // find the node to remove
+    const node = this.findValue(value);
+    if (!node) return null;
+
+    const parent = node.parent;
+    const leftNode = node.left;
+    const rightNode = node.right;
+
+    // -------------------------------------------------------------------
+    // CASE 1: Node has no children
+    // -------------------------------------------------------------------
+    if (!leftNode && !rightNode) {
+      if (!parent) {
+        // node is the root
+        this.root = null;
+      } else if (parent.left === node) {
+        parent.left = null;
+      } else {
+        parent.right = null;
+      }
+      return;
+    }
+
+    // -------------------------------------------------------------------
+    // CASE 2: Node has exactly one child (left OR right)
+    // -------------------------------------------------------------------
+    if (!leftNode || !rightNode) {
+      const child = leftNode || rightNode; // whichever exists
+
+      if (!parent) {
+        // node is root
+        this.root = child;
+        child.parent = null;
+      } else if (parent.left === node) {
+        parent.left = child;
+        child.parent = parent;
+      } else {
+        parent.right = child;
+        child.parent = parent;
+      }
+
+      return;
+    }
+
+    // -------------------------------------------------------------------
+    // CASE 3: Node has two children — we use inorder successor
+    // successor = smallest node in right subtree
+    // -------------------------------------------------------------------
+    let successor = rightNode;
+    while (successor.left) {
+      successor = successor.left;
+    }
+
+    // Copy successor's value into the current node
+    node.value = successor.value;
+
+    // Delete the successor node (it has 0 or 1 child)
+    // This is safe because successor cannot have a left child
+    const succParent = successor.parent;
+    const succChild = successor.right; // successor only can have a right child
+
+    if (succParent.left === successor) {
+      succParent.left = succChild;
+    } else {
+      succParent.right = succChild;
+    }
+
+    if (succChild) succChild.parent = succParent;
   }
 }
