@@ -4,11 +4,31 @@ export default class Tree {
   }
 
   printTree(node = this.root) {
-    console.log(`${JSON.stringify(node)}`);
+    // print the node, starts at root if no other node is given
+    console.log({
+      value: node.value,
+      children: node.childNodes.length,
+    });
 
+    // recursively print all child nodes and their childs and so on...
     for (const child of node.childNodes) {
       this.printTree(child);
     }
+  }
+
+  prettyPrint(node = this.root, prefix = "", isLast = true) {
+    // Print current node
+    const connector = prefix === "" ? "" : isLast ? "└── " : "├── ";
+    console.log(prefix + connector + node.value);
+
+    // Prepare prefix for children
+    const childPrefix = prefix + (isLast ? "    " : "│   ");
+
+    // Recurse children
+    node.childNodes.forEach((child, index) => {
+      const last = index === node.childNodes.length - 1;
+      this.prettyPrint(child, childPrefix, last);
+    });
   }
 
   addValue(value, parentNode = this.root) {
@@ -74,6 +94,7 @@ export default class Tree {
       const index = this.childNodes.indexOf(child);
       if (index === -1) return this.nodeNotFound(child);
       return this.childNodes.splice(index, 1)[0];
+      //TODO: handle children of children
     }
 
     replaceChild(newChild, oldChild) {
@@ -81,6 +102,7 @@ export default class Tree {
       if (index === -1) return this.nodeNotFound(oldChild);
       this.childNodes[index] = newChild;
       return newChild;
+      //TODO: handle children of children
     }
 
     nodeNotFound(node) {
