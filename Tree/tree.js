@@ -1,6 +1,6 @@
 export default class Tree {
   constructor() {
-    this.root = new Node();
+    this.root = new Tree.Node();
   }
 
   printTree(node = this.root) {
@@ -13,11 +13,7 @@ export default class Tree {
 
   addValue(value, parentNode = this.root) {
     // create a new node
-    const node = new Node({
-      parent: null,
-      childNodes: [],
-      value: value,
-    });
+    const node = new Tree.Node(null, [], value);
 
     // if we don't have a root, we create a new node and make that the root
     if (!this.root.value || !this.root) {
@@ -35,7 +31,7 @@ export default class Tree {
     if (node.value == value) return node;
 
     for (const child of node.childNodes) {
-      const result = this.findValue(child.value);
+      const result = this.findValue(value, child);
       if (result) return result;
     }
     return null;
@@ -67,8 +63,7 @@ export default class Tree {
     }
 
     hasChildNodes() {
-      //TODO: This is not good enough, what if the child nodes are null?
-      return !this.childNodes.length == 0;
+      return this.childNodes.length > 0;
     }
 
     appendChild(child) {
@@ -76,23 +71,16 @@ export default class Tree {
     }
 
     removeChild(child) {
-      for (const node of this.childNodes) {
-        if (node === child) {
-          return this.childNodes.pop(child);
-        }
-      }
-      this.nodeNotFound(child);
-      return null;
+      const index = this.childNodes.indexOf(child);
+      if (index === -1) return this.nodeNotFound(child);
+      return this.childNodes.splice(index, 1)[0];
     }
 
-    replaceChild(newChild, odlChild) {
-      for (const child of this.childNodes) {
-        if (child === odlChild) {
-          return (odlChild = newChild);
-        }
-      }
-      this.nodeNotFound(odlChild);
-      return null;
+    replaceChild(newChild, oldChild) {
+      const index = this.childNodes.indexOf(oldChild);
+      if (index === -1) return this.nodeNotFound(oldChild);
+      this.childNodes[index] = newChild;
+      return newChild;
     }
 
     nodeNotFound(node) {
