@@ -94,7 +94,7 @@ export default class Tree {
       const index = this.childNodes.indexOf(child);
       if (index === -1) return this.nodeNotFound(child);
       return this.childNodes.splice(index, 1)[0];
-      //TODO: handle children of children
+      //TODO: handle children of removed child
     }
 
     replaceChild(newChild, oldChild) {
@@ -102,7 +102,7 @@ export default class Tree {
       if (index === -1) return this.nodeNotFound(oldChild);
       this.childNodes[index] = newChild;
       return newChild;
-      //TODO: handle children of children
+      //TODO: handle children of replaced child
     }
 
     nodeNotFound(node) {
